@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import mongoose from 'mongoose';
 import User from '../database/userschema.js';
 import bcrypt from 'bcrypt';
@@ -19,7 +22,7 @@ export const signup = async (req,res,next) => {
 		const hashedPassword = await bcrypt.hash(password,salt);
 		const newUser = await User.create({username,email,hashedPassword},{session});
 
-		const token  = jwt.sign({userId:newUsers._id},"Secret",{expiresIn:"1d"});
+		const token  = jwt.sign({userId:newUser._id}, process.env.JWT_SECRET || "Secret", {expiresIn: process.env.JWT_EXPIRES_IN || "1d"});
 		await session.commitTransaction();
 		session.endSession();
 
@@ -49,7 +52,7 @@ export const signin = async (req,res,next) =>{
 		if(!passwordmatch){
 			return res.status(401).json({message:"wrong credentials"});
 		}else {
-			const token = jwt.sign({userId:user._id},"Secret",{expiresIn:"1d"});
+			const token = jwt.sign({userId:user._id}, process.env.JWT_SECRET || "Secret", {expiresIn: process.env.JWT_EXPIRES_IN || "1d"});
 			res.status(201).json({message:"Successfully Logged in!", token});
 		}
 		 
