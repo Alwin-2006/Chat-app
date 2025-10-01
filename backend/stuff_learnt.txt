@@ -1,0 +1,3 @@
+for mongoose, try to make separate collections for storing arrays
+
+for example for storing messages in the chat, just make a separate collection instead of storing them in array(in the database)
