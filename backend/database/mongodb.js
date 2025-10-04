@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const connect_db = async () => {
     try{
         const mongoUri = process.env.MONGODB_URI;
@@ -11,7 +12,6 @@ const connect_db = async () => {
     }catch(error){
         console.error("Error connecting to db",error);
         process.exit(1);
-        
     }
 }
 export default connect_db;

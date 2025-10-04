@@ -20,13 +20,13 @@ const io = new Server(server, {
         methods: ["GET", "POST"]
     }
 });
-
+app.use(errorMiddleware);
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use('/auth',authRouter);
 app.use('/users',userRouter);
-app.use(errorMiddleware);
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -48,7 +48,11 @@ io.on('connection', (socket) => {
     socket.on('send_message', async (data) => {
         console.log('Message received:', data);
         const {user,message,room} = data; // incoming message has a user, content, and the group
-        const newMsg = await Message.create({sentBy:user,text:message, sentTo:room });
+        const newMsg = await Message.create({
+            sentBy: user, 
+            text: message, 
+            sentTo: [room]
+        });
         socket.to(data.room).emit('receive_message', newMsg);
     });
     
@@ -63,6 +67,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('User disconnected:', socket.id);
     });
+    
 });
 
 server.listen(PORT, async ()=>{
