@@ -1,10 +1,41 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
-
-const Navbar = () =>{
+import { Link } from 'react-router-dom';
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuIndicator,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+    NavigationMenuViewport,
+  } from "@/components/ui/navigation-menu"
+  import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  import { faChartSimple } from '@fortawesome/free-solid-svg-icons'
+  
+  
+const Navbar = (user) =>{
     return (
         <>
-            hello
+            <div className = "flex justify-around py-3 items-center text-sm gap-15 md:gap-10">
+                <Link to="/">App</Link> 
+                <NavigationMenu>
+                    <NavigationMenuList className = 'flex gap-5 '>
+                        <NavigationMenuItem><Link to = "/leaderboard"><FontAwesomeIcon icon={faChartSimple} className="text-2xl" /></Link></NavigationMenuItem>
+                        <NavigationMenuItem>
+                                    {user ? (
+                                        <Link to="/user/:id">
+                                        <Avatar>
+                                        <AvatarImage src={user.image} />
+                                        <AvatarFallback>?</AvatarFallback>
+                                        </Avatar>
+                                        </Link>
+                                    ) : null}
+                                    
+                                    </NavigationMenuItem>
+                    </NavigationMenuList>
+                </NavigationMenu>
+            </div>  
         </>
     )
 }
