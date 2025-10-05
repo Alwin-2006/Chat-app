@@ -17,7 +17,8 @@ import {
 const Navbar = (user) =>{
     return (
         <>
-            <div className = "flex justify-around py-3 items-center text-sm gap-15 md:gap-10">
+            
+            <div className = "h-16 flex justify-around items-center w-full">
                 <Link to="/">App</Link> 
                 <NavigationMenu>
                     <NavigationMenuList className = 'flex gap-5 '>
@@ -36,6 +37,7 @@ const Navbar = (user) =>{
                     </NavigationMenuList>
                 </NavigationMenu>
             </div>  
+         
         </>
     )
 }
