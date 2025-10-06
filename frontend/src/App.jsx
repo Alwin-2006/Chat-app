@@ -9,7 +9,7 @@ import {SidebarProvider} from '@/components/ui/sidebar'
 import Login from './components/login'
 import { useNavigate } from "react-router-dom";
 import { Navigate } from 'react-router-dom'
-
+import { useParams } from "react-router-dom";
 
 const url = `http://localhost:5173/`;
 
@@ -29,7 +29,7 @@ function App() {
             headers:{Authorization:`Bearer ${access}`}
           });
           if(res.ok){
-            isAuthenticated = true;
+            isAuthenticated(true);
         }else if(res.status === 401 || res.status === 403) {
           const refreshtoken  = await fetch(url,{
             method:'POST',
@@ -46,25 +46,23 @@ function App() {
         }
         }
       }
-    },[]) 
-    console.log(authenticated);
+    },[])
     if(loading){
       return <div className='flex items-center justify-center h-screen text-5xl'> <div className='flex self-center'>Loading...</div></div>
     }
-      else if(authenticated){ return (
+      else{ return (
         <>
-            <div className="h-screen flex flex-col">
-              <div className='pt-14'>
-                <SidebarProvider>
-                <Chats />
-                </SidebarProvider>
-              </div>
-             
-              
-          </div>
+            <div className="h-screen flex flex-col justify-center gap-10 items-center">
+              <h1 className='text-9xl font-bold'>
+                CHATAPP
+              </h1>
+              <p className='text-4xl'>
+                Get started with chatting today!
+              </p>
+            </div>
         </>
       )
-    }else return <Navigate to='/login' replace />
+    }
 }
 
 export default App

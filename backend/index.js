@@ -20,12 +20,12 @@ const io = new Server(server, {
         methods: ["GET", "POST"]
     }
 });
-app.use(errorMiddleware);
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use('/auth',authRouter);
 app.use('/users',userRouter);
+app.use(errorMiddleware);
 
 
 const PORT = process.env.PORT || 3000;

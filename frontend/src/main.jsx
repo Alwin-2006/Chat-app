@@ -7,13 +7,18 @@ import LeaderBoard from "/src/components/leaderboard";
 import userPage from "/src/components/userPage";
 import AppLayout from './components/layout/AppLayout.jsx'
 import Login from './components/login.jsx'
-
+import Chats from './components/Chats.jsx'
+import Signup from './components/signup.jsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element:<AppLayout />,
     children: [
+      {
+        path:"/chats/:id",
+        element:<Chats />
+      },  
       {
         path: "/",
         element:<App />
@@ -29,6 +34,10 @@ const router = createBrowserRouter([
       {
         path:"/login",
         element:<Login/ >
+      },
+      {
+        path:"/signup",
+        element:<Signup />
       }
     ]
   }

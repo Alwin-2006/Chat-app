@@ -5,9 +5,11 @@ import Sidebar from '../Sidebar'
 
 const AppLayout = () => {
      return (
-        <>
+        <>  
+            <div className='flex flex-col h-screen'>
             <Navbar />
             <Outlet />
+            </div>
         </>
      )
 }

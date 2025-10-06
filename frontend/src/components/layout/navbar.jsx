@@ -12,9 +12,11 @@ import {
   } from "@/components/ui/navigation-menu"
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
   import { faChartSimple } from '@fortawesome/free-solid-svg-icons'
+  import { SidebarProvider } from "../ui/sidebar";
+import {Button} from "../ui/button";
   
-  
-const Navbar = (user) =>{
+const Navbar = (props) =>{
+    const { user } = props;
     return (
         <>
             
@@ -31,7 +33,10 @@ const Navbar = (user) =>{
                                         <AvatarFallback>?</AvatarFallback>
                                         </Avatar>
                                         </Link>
-                                    ) : null}
+                                    ) : <div className="flex gap-5">
+                                        <Button><Link to='/login'>Login</Link></Button>
+                                        <Button><Link to='/signup'>Signup</Link></Button>
+                                        </div>}
                                     
                                     </NavigationMenuItem>
                     </NavigationMenuList>
