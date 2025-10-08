@@ -1,5 +1,7 @@
 import SideBar from "./Sidebar"
 import {SidebarTrigger}  from "@/components/ui/sidebar"
+import {useParams} from 'react-router-dom'
+
  
 const chats = [
     {
@@ -14,6 +16,8 @@ const chats = [
 ]
   
 const Chats = () => {
+        const params = useParams();
+        console.log(params);
         return(
             
             <div className='flex'>

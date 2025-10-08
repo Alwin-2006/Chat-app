@@ -5,10 +5,12 @@ import mongoose from 'mongoose';
 import User from '../database/userschema.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-
+console.log("n");
 export const signup = async (req,res,next) => {
+	let session;
 	try{
-		const session = await mongoose.startSession();
+		
+		 session = await mongoose.startSession();
 		if(!session){
 			const error = new Error("couldnt start session");
 			throw error;
@@ -24,7 +26,7 @@ export const signup = async (req,res,next) => {
 		}
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password,salt);
-		const newUser = await User.create({username,email,password:hashedPassword},{session});
+		const newUser = await User.create([{username,email,password:hashedPassword}],{session});
 
 		const token  = jwt.sign({userId:newUser._id}, process.env.JWT_SECRET || "Secret", {expiresIn: process.env.JWT_EXPIRES_IN || "1d"});
 		await session.commitTransaction();
@@ -52,17 +54,20 @@ export const signup = async (req,res,next) => {
 export const signin = async (req,res,next) =>{
 	const {username,email,password} = req.body;
 		try{
-		const user = await User.findOne({$or: [{username:username},{email:email}]}); // QUERY OPERATORS(LEARN!!!)
-		const passwordmatch = await bcrypt.compare(password,user.password); // bcrypt compare function
+        const user = await User.findOne({$or: [{username:username},{email:email}]}); // QUERY OPERATORS(LEARN!!!)
+        if(!user){
+            return res.status(401).json({message:"wrong credentials"});
+        }
+        const passwordmatch = await bcrypt.compare(password,user.password); // bcrypt compare function
 		if(!passwordmatch){
 			return res.status(401).json({message:"wrong credentials"});
 		}else {
 			const token = jwt.sign({userId:user._id}, process.env.JWT_SECRET || "Secret", {expiresIn: process.env.JWT_EXPIRES_IN || "1d"});
-			res.status(201).json({message:"Successfully Logged in!",username:{username}, token});
+            res.status(201).json({message:"Successfully Logged in!", user: { username: user.username, email: user.email, _id: user._id }, token});
 		}
 	}catch(err){
-		console.Error("Login error",err);
-		res.status(500).json({error:err.message})
+        console.error("Login error", err);
+        res.status(500).json({error:err.message})
 	}
 		 
 	

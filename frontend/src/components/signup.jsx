@@ -10,14 +10,19 @@ import {
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
+
 
 const url = "http://localhost:3000/auth/signup"
 
   const signup = () => {
+        const navigate = useNavigate();
         const signup = async (e) =>{
+            console.log("signingup");
+            e.preventDefault(); // vert important for handle submission 
             const res = await fetch((url),{
                 method:"POST",
-                header:{
+                headers:{
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify({
@@ -25,7 +30,13 @@ const url = "http://localhost:3000/auth/signup"
                     email,
                     password,
                   })
-            })
+            });
+            if(res.ok){
+            const data = await res.json();
+            localStorage.setItem("token",data.token);
+            const id = data.username;
+            navigate(`/chats/${id}`);
+            }else console.log(res.error);
         }
         const [username,setUsername] = useState("");
         const [email,setEmail] = useState("");
@@ -49,10 +60,10 @@ const url = "http://localhost:3000/auth/signup"
                         </label>
                         <label className="flex flex-col gap-2">
                             Password:
-                            <Input type = "text" placeholder = "Enter password" onChange={(e) => setPassword(e.target.value)} />
+                            <Input type = "password" placeholder = "Enter password" onChange={(e) => setPassword(e.target.value)} />
                         </label>
                     </form>
-                    <Button onclick = {signup} className = 'flex justify-center items-center hover:click'>SIGN UP</Button>
+                    <button type = "submit" className = 'flex justify-center items-center hover:cursor-pointer' onClick = {signup}>SIGN UP</button>
                 </CardContent>
             </Card>
             </div>

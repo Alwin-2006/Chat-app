@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-const url = "http://localhost:3000/"
+const apiUrl = "http://localhost:3000/auth/signin"
 
 const LoginPage = () => {
   const navigate = useNavigate()
@@ -26,7 +26,7 @@ const LoginPage = () => {
     e.preventDefault() // stop form reload
 
     try {
-      const res = await fetch(url, {
+      const res = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,11 +39,16 @@ const LoginPage = () => {
       })
 
       if (res.ok) {
-        navigate("/chat") // ✅ redirect after success
+        const data = await res.json();
+        const user = data.user;
+        console.log(data);
+        navigate(`/chats/${user._id}`) 
       } else {
+        
         setUserFailed(true)
       }
     } catch (err) {
+      console.log(err.message);
       console.error(err)
       setUserFailed(true)
     }
@@ -102,7 +107,7 @@ const LoginPage = () => {
               </div>
             )}
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full hover:cursor-pointer">
               Login
             </Button>
           </form>

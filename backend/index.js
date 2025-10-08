@@ -11,6 +11,7 @@ import errorMiddleware from './middlewares/error.middlewares.js';
 import cookieParser from 'cookie-parser'
 import jwt from 'jsonwebtoken'
 import Message from './database/messageschema.js'
+import cors from 'cors';
 
 const app = express();
 const server = createServer(app);
@@ -21,6 +22,7 @@ const io = new Server(server, {
     }
 });
 app.use(express.json());
+app.use(cors({ origin: "*" }));
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use('/auth',authRouter);
