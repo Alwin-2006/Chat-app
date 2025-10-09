@@ -12,10 +12,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 const apiUrl = "http://localhost:3000/auth/signin"
 
 const LoginPage = () => {
+  const { login } = useContext(AuthContext);  
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -41,8 +43,11 @@ const LoginPage = () => {
       if (res.ok) {
         const data = await res.json();
         const user = data.user;
+        login(data.user);
+        localStorage.setItem("token",data.token);
         console.log(data);
-        navigate(`/chats/${user._id}`) 
+
+        navigate(`/chats/${user._id}`) ;
       } else {
         
         setUserFailed(true)

@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema({
     password:{type:String, required:[true, "please enter password"],minLength:[6,'minimum password should be of 6 characters']},
     createdAt:{type:Date, default:Date.now}
 }
-
 )
 const User  = mongoose.model('User',userSchema);
 export default User;

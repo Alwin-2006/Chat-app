@@ -14,25 +14,34 @@ import {
   import { faChartSimple } from '@fortawesome/free-solid-svg-icons'
   import { SidebarProvider } from "../ui/sidebar";
 import {Button} from "../ui/button";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
   
-const Navbar = (props) =>{
-    const { user } = props;
+const Navbar = () =>{
+    const contextValue = useContext(AuthContext);
+    console.log("Navbar context value:", contextValue);
+    const {user, logout} = contextValue || {};
     return (
         <>
             
-            <div className = "h-16 flex justify-around items-center w-full">
-                <Link to="/">App</Link> 
+            <div className = "h-16 flex py-5 justify-around items-center w-full">
+                {user?<Link to="/"></Link>:<></>} 
                 <NavigationMenu>
                     <NavigationMenuList className = 'flex gap-5 '>
                         <NavigationMenuItem><Link to = "/leaderboard"><FontAwesomeIcon icon={faChartSimple} className="text-2xl" /></Link></NavigationMenuItem>
                         <NavigationMenuItem>
                                     {user ? (
-                                        <Link to="/user/:id">
-                                        <Avatar>
-                                        <AvatarImage src={user.image} />
-                                        <AvatarFallback>?</AvatarFallback>
-                                        </Avatar>
-                                        </Link>
+                                        <div className="flex items-center gap-3">
+                                            <Link to={`/user/${user._id}`}>
+                                                <Avatar>
+                                                    <AvatarImage src={user.image} />
+                                                    <AvatarFallback>{user.username[0]}</AvatarFallback>
+                                                </Avatar>
+                                            </Link>
+                                            <Button onClick={logout} variant="outline" size="sm">
+                                                Logout
+                                            </Button>
+                                        </div>
                                     ) : <div className="flex gap-5">
                                         <Button><Link to='/login'>Login</Link></Button>
                                         <Button><Link to='/signup'>Signup</Link></Button>
