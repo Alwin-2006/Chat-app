@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter,Router,RouterProvider } from 'react-router-dom'
 import LeaderBoard from "/src/components/leaderboard";
-import userPage from "/src/components/userPage";
+import UserPage from "/src/components/userPage";
 import AppLayout from './components/layout/AppLayout.jsx'
 import Login from './components/login.jsx'
 import Chats from './components/Chats.jsx'
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       },
       {
         path:"/users/:id",
-        element:<userPage/ >
+        element:<UserPage/ >
       },
       {
         path:"/login",

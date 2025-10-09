@@ -26,7 +26,7 @@ app.use(cors({ origin: "*" }));
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use('/auth',authRouter);
-app.use('/users',userRouter);
+app.use('/',userRouter);
 app.use(errorMiddleware);
 
 

@@ -19,7 +19,6 @@ import { AuthContext } from "../../context/AuthContext";
   
 const Navbar = () =>{
     const contextValue = useContext(AuthContext);
-    console.log("Navbar context value:", contextValue);
     const {user, logout} = contextValue || {};
     return (
         <>
@@ -32,7 +31,7 @@ const Navbar = () =>{
                         <NavigationMenuItem>
                                     {user ? (
                                         <div className="flex items-center gap-3">
-                                            <Link to={`/user/${user._id}`}>
+                                            <Link to={`/users/${user._id}`}>
                                                 <Avatar>
                                                     <AvatarImage src={user.image} />
                                                     <AvatarFallback>{user.username[0]}</AvatarFallback>

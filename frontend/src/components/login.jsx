@@ -43,8 +43,7 @@ const LoginPage = () => {
       if (res.ok) {
         const data = await res.json();
         const user = data.user;
-        login(data.user);
-        localStorage.setItem("token",data.token);
+        login(user, data.token);
         console.log(data);
 
         navigate(`/chats/${user._id}`) ;
