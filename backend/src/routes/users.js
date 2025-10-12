@@ -1,7 +1,9 @@
 import {Router} from "express";
-import leaderboard from "../../controllers/leaderboard.controller.js";
+import {FetchLeaderboard,FetchChats} from "../../controllers/leaderboard.controller.js";
 const router = Router();
 
 console.log("nice");
-router.get("/leaderboard",leaderboard);
+router.get("/leaderboard",FetchLeaderboard);
+router.get("/chats/:id",FetchChats);
+
 export default router

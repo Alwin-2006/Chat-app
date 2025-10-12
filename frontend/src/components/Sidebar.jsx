@@ -12,7 +12,6 @@ import {
 import { Link } from "react-router-dom"
 
 const SideBar = ({ chats }) => {
-    console.log(chats);
     return (
         <SidebarProvider>
             <SidebarTrigger />
@@ -25,20 +24,22 @@ const SideBar = ({ chats }) => {
                 </SidebarHeader>
                 <SidebarContent>
                     <SidebarGroup className='flex flex-col gap-5 overflow-scroll'>
-                    {chats.map((chat)=>(
-                        <Link to='/' className="flex flex-col items-left text-2xl px-3" key = {chat.name}>
+                    {
+                    (chats.length == 0)?<div className="flex">Get started by adding someone!</div>:
+                    chats.map((chat)=>(
+                        <Link to='/:id' className="flex flex-col items-left text-2xl px-3" key = {chat.name}>
                             <h1>{chat.name}</h1>
                             <span className="text-xs">{chat.latestmsg}</span>
                         </Link>
                     )
-                    )}
+                    )
+                    }
                     </SidebarGroup>
                 </SidebarContent>
                 
                 <SidebarFooter>
                     Personal project<br></br>
                     All rights reserved
-                    {/* Footer content here */}
                 </SidebarFooter>
             </Sidebar>
             </div>

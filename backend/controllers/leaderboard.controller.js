@@ -2,9 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 import mongoose from 'mongoose';
 import User from '../database/userschema.js';
+import Chats from '../database/chatschema.js';
 
- const FetchLeaderboard = async (req,res,next) =>{
-    console.log("fetching req");
+export const FetchLeaderboard = async (req,res,next) =>{
     try{
         const arr = await User.find().sort({level:-1}).limit(10);
         if(!arr){
@@ -17,4 +17,20 @@ import User from '../database/userschema.js';
         res.status(500).json({error:err.message})
     }
 }
-export default FetchLeaderboard;
+
+export const FetchChats = async (req,res,next) => {
+    console.log("fetching chats!");
+    const {id} = req.params;
+    try{
+        const arr = await Chats.find({'participants._id':id});
+        if(arr){
+            res.status(201).json({success:true, message:"successfully fetched chats",chats:arr});
+        }else {
+            const err = new Error("Error fetching chat");
+            throw err;
+        }
+    }catch(err){
+        console.error("Error fetching chats",err);
+        res.status(500).json({error:err.message});
+    }
+}
