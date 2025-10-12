@@ -21,10 +21,9 @@ const Navbar = () =>{
     const contextValue = useContext(AuthContext);
     const {user, logout} = contextValue || {};
     return (
-        <>
-            
+        <> 
             <div className = "h-16 flex py-5 justify-around items-center w-full">
-                {user?<Link to="/"></Link>:<></>} 
+                {user?<Link to={`/chats/${user._id}`}>App</Link>:<></>} 
                 <NavigationMenu>
                     <NavigationMenuList className = 'flex gap-5 '>
                         <NavigationMenuItem><Link to = "/leaderboard"><FontAwesomeIcon icon={faChartSimple} className="text-2xl" /></Link></NavigationMenuItem>
