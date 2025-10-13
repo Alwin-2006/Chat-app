@@ -9,6 +9,7 @@ import AppLayout from './components/layout/AppLayout.jsx'
 import Login from './components/login.jsx'
 import Chats from './components/Chats.jsx'
 import Signup from './components/signup.jsx'
+import Friends from './components/Friends.jsx'
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path:"/signup",
         element:<Signup />
+      },
+      {
+        path:"/:id/friends",
+        element:<Friends />
       }
     ]
   }

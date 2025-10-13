@@ -11,7 +11,12 @@ import {
 } from "@/components/ui/sidebar"
 import { Link } from "react-router-dom"
 
-const SideBar = ({ chats }) => {
+
+// pass chats array, and each chat has an ID
+
+
+
+const SideBar = ({ chats, userId }) => {
     return (
         <SidebarProvider>
             <SidebarTrigger />
@@ -27,7 +32,7 @@ const SideBar = ({ chats }) => {
                     {
                     (chats.length == 0)?<div className="flex">Get started by adding someone!</div>:
                     chats.map((chat)=>(
-                        <Link to='/:id' className="flex flex-col items-left text-2xl px-3" key = {chat.name}>
+                        <Link to={`/${userId}/${chat.id}`} className="flex flex-col items-left text-2xl px-3" key = {chat.name}>
                             <h1>{chat.name}</h1>
                             <span className="text-xs">{chat.latestmsg}</span>
                         </Link>

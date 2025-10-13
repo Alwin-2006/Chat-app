@@ -3,6 +3,7 @@ import {SidebarTrigger}  from "@/components/ui/sidebar"
 import { useEffect, useState } from "react"
 import {useParams} from 'react-router-dom'
 import { AuthContext } from "../context/AuthContext";
+import Chat from "./Chat";
  
 const chats = [
     {
@@ -15,6 +16,11 @@ const chats = [
     },
     
 ]
+
+
+
+
+
 
   
 const Chats = () => {
@@ -54,7 +60,7 @@ const Chats = () => {
         
         return(
             <div className='flex'>
-            {success?<SideBar collapsible="offcanvas | icon | none" className = "cursor:pointer" chats={Chats} />:<div className="w-full h-screen text-6xl"></div>}
+            {success?<><SideBar collapsible="offcanvas | icon | none" className = "cursor:pointer" chats={Chats} userId={id} /><Chat userId = {id}  /></>:<div className="w-full h-screen text-6xl"></div>}
             </div>
         )
 }

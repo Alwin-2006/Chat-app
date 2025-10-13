@@ -14,16 +14,17 @@ import {
   import { faChartSimple } from '@fortawesome/free-solid-svg-icons'
   import { SidebarProvider } from "../ui/sidebar";
 import {Button} from "../ui/button";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
   
 const Navbar = () =>{
     const contextValue = useContext(AuthContext);
     const {user, logout} = contextValue || {};
+    const [friends,setFriends] = useState(false);
     return (
         <> 
             <div className = "h-16 flex py-5 justify-around items-center w-full">
-                {user?<Link to={`/chats/${user._id}`}>App</Link>:<></>} 
+                    {user?<div className="flex justify-between gap-5 items-center"><Link to={`/chats/${user._id}`}>App</Link><Button className='hover:cursor-pointer'><Link to= {`/${user._id}/friends`}>Add friends!</Link></Button></div>:<></>} 
                 <NavigationMenu>
                     <NavigationMenuList className = 'flex gap-5 '>
                         <NavigationMenuItem><Link to = "/leaderboard"><FontAwesomeIcon icon={faChartSimple} className="text-2xl" /></Link></NavigationMenuItem>
