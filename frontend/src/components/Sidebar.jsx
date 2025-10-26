@@ -18,9 +18,9 @@ import { Link } from "react-router-dom"
 
 const SideBar = ({ chats, userId }) => {
     return (
-        <SidebarProvider>
+        <SidebarProvider className = 'max-w-5 md:max-w-70'>
             <SidebarTrigger />
-            <div className="flex flex-1 overflow-hidden flex-col">
+            <div className="flex flex-1 overflow-hidden flex-col max-w-64">
             <Sidebar className = 'hidden md:block w-64 '>
                 <SidebarHeader>
                     <SidebarGroupLabel className='flex items-center text-4xl p-2'>

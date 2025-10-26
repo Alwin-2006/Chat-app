@@ -23,14 +23,16 @@ const chats = [
 
 
   
-const Chats = () => {
+const Chats = ({curr_room}) => {
         const params = useParams(AuthContext);
         console.log("params");
         console.log(params);
         const { id } = params;
         const apiUrl = `http://localhost:3000/chats/${id}`;
-        const [Chats,setChats] = useState([]);
+        const [Chats,setChats] = useState([]); // array of chat objects
         const [success,setSuccess] = useState(false);
+        const [current,setCurrent] = useState(curr_room);
+
         useEffect(
              () =>{
               const fetchData = async () => {  
@@ -60,7 +62,7 @@ const Chats = () => {
         
         return(
             <div className='flex'>
-            {success?<><SideBar collapsible="offcanvas | icon | none" className = "cursor:pointer" chats={Chats} userId={id} /><Chat userId = {id}  /></>:<div className="w-full h-screen text-6xl"></div>}
+            {success?<><SideBar collapsible="offcanvas | icon | none" className = "cursor:pointer" chats={Chats} userId={id} /><Chat chat = {Chats}  /></>:<div className="w-full h-screen text-6xl">There was an error loading chats</div>}
             </div>
         )
 }

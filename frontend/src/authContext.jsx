@@ -8,6 +8,7 @@ const AuthProvider = ({children}) => {
     const [token, setToken] = useState(null);
 
     // Check for existing auth data on component mount
+    const [loading,setLoading] = useState(true);
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         const storedToken = localStorage.getItem("token");
@@ -21,6 +22,7 @@ const AuthProvider = ({children}) => {
                 localStorage.removeItem("token");
             }
         }
+        setLoading(false);
     }, []);
 
     const login = (userData, jwtToken) => {
@@ -39,7 +41,7 @@ const AuthProvider = ({children}) => {
     };
 
     const isAuthenticated = Boolean(user && token);
-
+    if(loading)return<div>Loading...</div>;
     return (
         <AuthContext.Provider value={{ user, token, isAuthenticated, login, logout, setUser, setToken }}>
             {children}
