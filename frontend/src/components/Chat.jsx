@@ -51,12 +51,12 @@ const Chat = ({chats})  => {
         e.preventDefault();
         if(message.trim() === "") return;
         const newMessage = {text: message, sentBy: user._id,sentTo: currChat._id};
-        socket.emit("send_message", newMessage  );
+        socket.emit("send_message", {sentBy:user._id,sentTo:currChat._id,message:message}  );
         setMessages((prevMessages) => [...prevMessages, newMessage]);
         setMessage("");
 
     }
-
+    console.log("Messages are:",messages);
 
 
     console.log(chats);
@@ -72,7 +72,7 @@ const Chat = ({chats})  => {
                     <div className='flex flex-col gap-4 text-xl md:text-4xl w-full overflow-scroll'>
                     {messages.map((msg, index) => 
                         <div key={index} className={`${msg.sentBy === user._id ? 'self-end ' : 'self-start'} flex flex-row items-center gap-5`}>
-                            <div>{msg.sentBy != user._id ? <div>{currChat.participants.find(p => p._id !=null).username}:</div> : <></>}</div>
+                            <div>{msg.sentBy != user._id ? <div>{currChat.participants.find(p => p._id ==msg.sentBy).username}:</div> : <></>}</div>
                         <div key={index} className={`bg-blue-500 ${msg.sentBy === user._id ? 'self-end bg-blue-900' : 'self-start'} rounded-xl p-4 w-fit max-w-lg`}>
                            {msg.text ? msg.text : msg}
                         </div>
