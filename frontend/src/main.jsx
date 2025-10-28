@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     element:<AppLayout />,
     children: [
       {
-        path:"/chats/:id",
+        path:"/chats/:id?", // make id optional
         element:<Chats />
       },  
       {

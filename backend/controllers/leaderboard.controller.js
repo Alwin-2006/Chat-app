@@ -2,8 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 import mongoose from 'mongoose';
 import User from '../database/userschema.js';
-import Chats from '../database/chatschema.js';
+import Chat from '../database/chatschema.js';
 import FriendReq from '../database/friendReqschema.js';
+import Message from '../database/messageschema.js';
 
 export const FetchLeaderboard = async (req,res,next) =>{
     try{
@@ -23,7 +24,7 @@ export const FetchChats = async (req,res,next) => {
     console.log("fetching chats!");
     const {id} = req.params;
     try{
-        const arr = await Chats.find({'participants._id':id});
+        const arr = await Chat.find({participants:id}).populate("participants", "username lastmsg");
         if(arr){
             res.status(201).json({success:true, message:"successfully fetched chats",chats:arr});
         }else {
@@ -35,7 +36,7 @@ export const FetchChats = async (req,res,next) => {
         res.status(500).json({error:err.message});
     }
 }
-///users?send={user}&receive={friend}
+///users?send={user}&receive={friend}   
 export const friendRequest = async (req,res,next) => {
     const {send, rec} = req.query;
     console.log("Friend request from", send, "to", rec);
@@ -84,16 +85,39 @@ export const acceptFriendRequest = async (req,res,next) => {
             const err = new Error("Sender or Receiver not found");
             throw err;
         }
-        const friendReq = await FriendReq.updateOne({sender:sender._id, receiver:receiver._id, status:'pending'},{$set: {status:'accepted'}});
+        const friendReq = await FriendReq.findOneAndUpdate({sender:sender._id, receiver:receiver._id, status:'pending'},{$set: {status:'accepted'}});
         if(!friendReq){
             const err = new Error("Friend request not found");
             throw err;
         }
-        friendReq.status = 'accepted';  
+        const roomId = [sender._id, receiver._id].sort().join("_");
+        friendReq.status = 'accepted';
+        const newChat = await Chat({
+            roomId:roomId,
+            creator:sender,
+            participants:[{_id:sender._id, username:sender.username}, {_id:receiver._id, username:receiver.username}],
+        });
+        await newChat.save();  
         await friendReq.save();
-        res.status(201).json({success:true, message:"Friend request accepted"});
+        res.status(201).json({success:true, message:"Friend request accepted",newChat:newChat});
     }catch(err){
         console.error("Error accepting friend request", err);
+        res.status(500).json({error:err.message});
+    }
+}
+
+
+export const fetchMessages = async (req,res,next) => {
+
+    const roomId = req.params.id;
+    console.log(roomId);
+    try{
+        const messages = await Message.find({sentTo:roomId}).limit(20);
+        console.log("Fetched messages for room:", roomId);
+        console.log(messages);
+        res.status(200).json({success:true, messages:messages});
+    }catch(err){
+        console.error("Error fetching messages", err);
         res.status(500).json({error:err.message});
     }
 }

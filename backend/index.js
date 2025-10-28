@@ -47,15 +47,16 @@ io.on('connection', (socket) => {
     });
     
     //someone sends a message
-    socket.on('send_message', async (data) => {
-        console.log('Message received:', data);
-        const {user,message,room} = data; // incoming message has a user, content, and the group
+    socket.on("send_message", async (data) => {
+        console.log('Message received');
+        const {sentBy,message,sentTo} = data; // incoming message has a user, content, and the group
         const newMsg = await Message.create({
-            sentBy: user, 
+            sentBy: sentBy, 
             text: message, 
-            sentTo: [room]
+            sentTo: sentTo
         });
-        socket.to(data.room).emit('receive_message', newMsg);
+        socket.to(sentTo).emit('receive_message', newMsg);
+        console.log("Emitted message to room:", sentTo);
     });
     
     // when someone in the grp is typing

@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import User from '../database/userschema.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import Chats from '../database/chatschema.js';
 
 export const signup = async (req,res,next) => {
 	let session;
@@ -63,7 +64,7 @@ export const signin = async (req,res,next) =>{
 			return res.status(401).json({message:"wrong credentials"});
 		}else {
 			const token = jwt.sign({userId:user._id}, process.env.JWT_SECRET || "Secret", {expiresIn: process.env.JWT_EXPIRES_IN || "1d"});
-            res.status(201).json({message:"Successfully Logged in!", user: { username: user.username, email: user.email, _id: user._id,createdAt:user.createdAt,level:user.level }, token});
+            res.status(201).json({message:"Successfully Logged in!", user: { username: user.username, email: user.email, _id: user._id,createdAt:user.createdAt,level:user.level}, token});
 		}
 	}catch(err){
         console.error("Login error", err);

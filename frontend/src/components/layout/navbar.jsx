@@ -24,7 +24,7 @@ const Navbar = () =>{
     return (
         <> 
             <div className = "h-16 flex py-5 justify-around items-center w-full">
-                    {user?<div className="flex justify-between gap-5 items-center"><Link to={`/chats/${user._id}`}>App</Link><Button className='hover:cursor-pointer'><Link to= {`/${user._id}/friends`}>Add friends!</Link></Button></div>:<></>} 
+                    {user?<div className="flex justify-between gap-5 items-center"><Link to={`/chats`}>App</Link><Button className='hover:cursor-pointer'><Link to= {`/${user._id}/friends`}>Add friends!</Link></Button></div>:<></>} 
                 <NavigationMenu>
                     <NavigationMenuList className = 'flex gap-5 '>
                         <NavigationMenuItem><Link to = "/leaderboard"><FontAwesomeIcon icon={faChartSimple} className="text-2xl" /></Link></NavigationMenuItem>

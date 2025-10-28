@@ -20,7 +20,7 @@ function App() {
   console.log(user);
   if(user){
     console.log("user exists");
-    navigate(`/chats/${user._id}`);
+    navigate(`/chats/`);
   }
     return (
       <div className="h-screen flex flex-col justify-center gap-10 items-center">

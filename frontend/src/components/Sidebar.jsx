@@ -10,13 +10,15 @@ import {
     SidebarGroupLabel
 } from "@/components/ui/sidebar"
 import { Link } from "react-router-dom"
-
-
+import { AuthContext } from "../context/AuthContext"
+import { useContext } from "react"
 // pass chats array, and each chat has an ID
 
 
 
-const SideBar = ({ chats, userId }) => {
+const SideBar = ({ chats }) => {
+    const context = useContext(AuthContext);
+    const {user} = context || [];
     return (
         <SidebarProvider className = 'max-w-5 md:max-w-70'>
             <SidebarTrigger />
@@ -32,8 +34,8 @@ const SideBar = ({ chats, userId }) => {
                     {
                     (chats.length == 0)?<div className="flex">Get started by adding someone!</div>:
                     chats.map((chat)=>(
-                        <Link to={`/${userId}/${chat.id}`} className="flex flex-col items-left text-2xl px-3" key = {chat.name}>
-                            <h1>{chat.name}</h1>
+                        <Link to={`/chats/${chat._id}`} className="flex flex-col items-left text-2xl px-3" key = {chat.name}>
+                            <h1>{chat.participants[0].username == user.username?chat.participants[1].username:chat.participants[0].username}</h1>
                             <span className="text-xs">{chat.latestmsg}</span>
                         </Link>
                     )

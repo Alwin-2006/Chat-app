@@ -46,7 +46,7 @@ const LoginPage = () => {
         login(user, data.token);
         console.log(data);
 
-        navigate(`/chats/${user._id}`) ;
+        navigate(`/chats`) ;
       } else {
         
         setUserFailed(true)

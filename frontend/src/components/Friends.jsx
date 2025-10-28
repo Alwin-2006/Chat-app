@@ -42,6 +42,7 @@ const Friends = () => {
 
     const handleAccept = (friendUsername) => async (e) => {
         e.preventDefault();
+        setValue("");
         setIncoming((prev)=> prev.filter((req)=> req.sender.username !== friendUsername));
         setFriends((prev)=> [...prev, {username:friendUsername}]);
         const res = await fetch(`http://localhost:3000/users/accept?send=${friendUsername}&rec=${user.username}`,{
@@ -74,7 +75,7 @@ const Friends = () => {
                 </ul>
                 <form>
                     <label className="flex w-full items-center gap-2">
-                    <Input type = "text" placeholder="Get new friends!" className = 'bg-black w-full flex-1' onChange ={(e)=>{setValue(e.target.value)}}/>
+                    <Input type = "text" placeholder="Get new friends!" className = 'bg-black w-full flex-1' value = {value} onChange ={(e)=>{setValue(e.target.value)}}/>
                     <Button className='shrink-0' onClick ={handleSubmit}>Send</Button>
                     </label>
                 </form>
@@ -108,7 +109,7 @@ const Friends = () => {
                             friends.map((friend) => (
                                 <div key={friend.index} className="flex items-center justify-between gap-20">
                                     <span>{friend.sender.username === user.username ? friend.receiver.username : friend.sender.username}</span>
-                                    <Button><Link to={`/chats/${user._id}`} curr_room={friend.sender}>Chat</Link></Button>
+                                    <Button><Link to={`/chats/`}>Chat</Link></Button>
                                 </div>
                             ))
                         )}
